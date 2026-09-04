@@ -1,0 +1,16 @@
+# Project-scoped Stitch MCP configuration.
+# Keep this disabled until STITCH_API_KEY is exported in the environment.
+[mcp_servers.stitch]
+url = "https://stitch.googleapis.com/mcp"
+env_http_headers = { "X-Goog-Api-Key" = "STITCH_API_KEY" }
+enabled = false
+
+# Keep the Stitch skills project-scoped as well.
+[plugins."stitch-design@stitch-skills"]
+enabled = true
+
+[plugins."stitch-build@stitch-skills"]
+enabled = true
+
+[plugins."stitch-utilities@stitch-skills"]
+enabled = true
