@@ -11,8 +11,14 @@ import {
   QrCode,
   Truck,
 } from "lucide-react";
+import {
+  linearSymbologies,
+  type LinearSymbologyId,
+  type SymbologyId,
+} from "./linearSymbologies";
 
 export type CategoryId = "publishing" | "logistics" | "interactive";
+export type { LinearSymbologyId, SymbologyId } from "./linearSymbologies";
 
 export interface CategoryOption {
   readonly id: CategoryId;
@@ -42,6 +48,7 @@ export interface ToolCardData {
   readonly icon: LucideIcon;
   readonly tone: "blue" | "green" | "teal";
   readonly category: CategoryId;
+  readonly symbology?: SymbologyId;
 }
 
 export interface StandardBadge {
@@ -163,6 +170,22 @@ export const workflowSteps: readonly WorkflowStep[] = [
   },
 ];
 
+const linearToolCards: readonly ToolCardData[] = linearSymbologies.map((symbology) => ({
+  id: symbology.id,
+  title: symbology.title,
+  eyebrow: symbology.eyebrow,
+  description: symbology.description,
+  detailLabel: symbology.detailLabel,
+  detailValue: symbology.detailValue,
+  standard: symbology.standard,
+  footer: symbology.footer,
+  action: symbology.action,
+  icon: symbology.icon,
+  tone: symbology.tone,
+  category: symbology.category,
+  symbology: symbology.id,
+}));
+
 export const toolCards: readonly ToolCardData[] = [
   {
     id: "issn-suite",
@@ -209,6 +232,7 @@ export const toolCards: readonly ToolCardData[] = [
     tone: "blue",
     category: "logistics",
   },
+  ...linearToolCards,
   {
     id: "digital-link",
     title: "GS1 Digital Link 智能码",
@@ -241,14 +265,14 @@ export const toolCards: readonly ToolCardData[] = [
   },
   {
     id: "batch-api",
-    title: "批量流水号与 CSV 导入",
+    title: "批量流水号与逐行导入",
     eyebrow: "生产套印",
     description:
-      "支持固定步长生成期刊年期序列号、仓储箱号，或导入 CSV 合成万级矢量 ZIP 与连排拼版 PDF。",
+      "支持固定步长生成序列号，或逐行粘贴数据；前 5 条即时预览，其余条目可从省略号菜单逐条导出。",
     detailLabel: "单批上限",
-    detailValue: "50,000 枚 / 批次（本地 Worker）",
-    standard: "ZIP / 多页 PDF / EPS",
-    footer: "无服务器端数据留存",
+    detailValue: "50 枚 / 批次（浏览器内生成）",
+    standard: "SVG / PNG",
+    footer: "数据仅在浏览器内处理",
     action: "批量体验",
     icon: FileSpreadsheet,
     tone: "blue",

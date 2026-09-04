@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@bwip-js/browser": "^4.11.4",
     "@vitejs/plugin-react": "latest",
     "lucide-react": "latest",
     "react": "latest",

@@ -1,21 +1,22 @@
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toolCards } from "../data/mockData";
-import type { CategoryId } from "../data/mockData";
+import type { CategoryId, SymbologyId } from "../data/mockData";
 
 export interface ToolMatrixProps {
   readonly activeCategory: CategoryId;
-  readonly onUseTool: (category: CategoryId) => void;
+  readonly activeSymbology: SymbologyId;
+  readonly onUseTool: (category: CategoryId, symbology?: SymbologyId) => void;
 }
 
-export const ToolMatrix = ({ activeCategory, onUseTool }: ToolMatrixProps) => (
+export const ToolMatrix = ({ activeCategory, activeSymbology, onUseTool }: ToolMatrixProps) => (
   <section className="tool-matrix section-band section-band--white" id="symbology-hub" aria-labelledby="tool-matrix-title">
     <div className="shell">
       <div className="section-heading section-heading--split">
         <div>
           <span className="eyebrow">Symbology Hub &amp; Specialized Suites</span>
           <h2 id="tool-matrix-title">模块化工具矩阵 · 针对各行业专属调优</h2>
-          <p>集成出版印务、仓储集装箱标、数字名片与批量引擎六大核心功能模块。</p>
+          <p>集成出版印务、仓储集装箱标、工业序列码、数字名片与批量引擎七大核心功能模块。</p>
         </div>
         <span className="count-chip">共收录 28+ 项条码与二维矩阵</span>
       </div>
@@ -23,7 +24,9 @@ export const ToolMatrix = ({ activeCategory, onUseTool }: ToolMatrixProps) => (
       <div className="tool-grid">
         {toolCards.map((card) => {
           const Icon = card.icon;
-          const isCurrent = card.category === activeCategory;
+          const isCurrent = card.symbology
+            ? card.symbology === activeSymbology
+            : card.category === activeCategory && activeSymbology === "issn-p2";
           const isExternal = card.id === "tec-it";
           return (
             <article className={`tool-card tool-card--${card.tone}${isCurrent ? " is-current" : ""}`} key={card.id} id={card.id}>
@@ -48,7 +51,7 @@ export const ToolMatrix = ({ activeCategory, onUseTool }: ToolMatrixProps) => (
                     {card.action} <ExternalLink size={13} aria-hidden="true" />
                   </a>
                 ) : (
-                  <Link className="tool-card__action" to="/#quick-generator" onClick={() => onUseTool(card.category)}>
+                  <Link className="tool-card__action" to="/#quick-generator" onClick={() => onUseTool(card.category, card.symbology ?? "issn-p2")}>
                     {card.action} <ArrowRight size={13} aria-hidden="true" />
                   </Link>
                 )}
