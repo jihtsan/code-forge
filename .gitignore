@@ -1,0 +1,11 @@
+.DS_Store
+node_modules/
+dist/
+build/
+.env
+.env.*
+!.env.example
+
+# Generated Stitch assets can be large and are reproducible from the MCP project.
+.stitch/designs/*.html
+.stitch/designs/*.png
