@@ -1,0 +1,37 @@
+{
+  "projectId": "5385465816519825675",
+  "title": "Precision Editorial & Logistics Studio",
+  "deviceType": "DESKTOP",
+  "Last Sync Time": "2026-09-04T12:01:00+08:00",
+  "lastSyncTime": "2026-09-04T12:01:00+08:00",
+  "retrieval": {
+    "method": "authenticated Stitch browser export",
+    "mcpAvailable": false,
+    "referenceArchive": "/Users/sw-jooder/Downloads/stitch_logilabel_studio.zip"
+  },
+  "screens": {
+    "8c2174ee78d5435bbd05ebd72eef430c": {
+      "id": "8c2174ee78d5435bbd05ebd72eef430c",
+      "label": "VectorLabel Portal · Light",
+      "sourceScreen": null,
+      "dimensions": { "width": 1280, "height": 2678 },
+      "canvasPosition": { "x": 0, "y": 0 },
+      "localDesign": ".stitch/designs/vectorlabel-portal.html",
+      "localScreenshot": ".stitch/designs/vectorlabel-portal.png"
+    },
+    "7ae50fd320e7443ab18e0c2d58b443a5": {
+      "id": "7ae50fd320e7443ab18e0c2d58b443a5",
+      "label": "VectorLabel Portal · Dark",
+      "sourceScreen": "8c2174ee78d5435bbd05ebd72eef430c",
+      "dimensions": { "width": 1280, "height": 2678 },
+      "canvasPosition": { "x": 1360, "y": 0 }
+    },
+    "bc58a1cbdb6d486f92ba06faf023ef3b": {
+      "id": "bc58a1cbdb6d486f92ba06faf023ef3b",
+      "label": "VectorLabel · Encoding Workbench",
+      "sourceScreen": "8c2174ee78d5435bbd05ebd72eef430c",
+      "dimensions": { "width": 1440, "height": 900 },
+      "canvasPosition": { "x": 0, "y": 2900 }
+    }
+  }
+}

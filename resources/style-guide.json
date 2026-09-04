@@ -1,0 +1,50 @@
+{
+  "source": ".stitch/designs/vectorlabel-portal.html",
+  "project": "VectorLabel Portal",
+  "colors": {
+    "primary": "#0071e3",
+    "primaryHover": "#0077ed",
+    "primaryLight": "#e8f2fd",
+    "secondary": "#34c759",
+    "secondaryLight": "#eafaf1",
+    "background": "#fbfbfd",
+    "surface": "#ffffff",
+    "surfaceAlt": "#f5f5f7",
+    "onSurface": "#1d1d1f",
+    "onSurfaceSubtle": "#333336",
+    "onSurfaceVariant": "#86868b",
+    "border": "#e5e5ea",
+    "borderSubtle": "rgba(0, 0, 0, 0.06)"
+  },
+  "fontFamily": {
+    "body": ["-apple-system", "BlinkMacSystemFont", "SF Pro Text", "Libre Franklin", "sans-serif"],
+    "headline": ["-apple-system", "BlinkMacSystemFont", "SF Pro Display", "Libre Franklin", "sans-serif"],
+    "labelCode": ["SF Mono", "Space Mono", "monospace"]
+  },
+  "borderRadius": {
+    "default": "0.5rem",
+    "lg": "0.75rem",
+    "xl": "1rem",
+    "2xl": "1.25rem",
+    "full": "9999px"
+  },
+  "boxShadow": {
+    "appleSm": "0 2px 8px rgba(0, 0, 0, 0.04)",
+    "apple": "0 4px 20px rgba(0, 0, 0, 0.05)",
+    "appleHover": "0 12px 32px rgba(0, 0, 0, 0.08)",
+    "appleGlow": "0 0 24px rgba(0, 113, 227, 0.16)"
+  },
+  "spacing": {
+    "base": "0.25rem",
+    "gutterMobile": "1rem",
+    "gutterDesktop": "1.5rem",
+    "maxWidth": "80rem"
+  },
+  "typography": {
+    "heroDesktop": { "fontSize": "3rem", "fontWeight": 700, "lineHeight": 1.08 },
+    "heroMobile": { "fontSize": "2.125rem", "fontWeight": 700, "lineHeight": 1.14 },
+    "sectionHeading": { "fontSize": "1.8125rem", "fontWeight": 700, "lineHeight": 1.2 },
+    "body": { "fontSize": "0.875rem", "fontWeight": 400, "lineHeight": 1.7 },
+    "mono": { "fontSize": "0.625rem", "fontWeight": 600, "lineHeight": 1.4 }
+  }
+}

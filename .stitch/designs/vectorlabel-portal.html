@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+
+<html class="light scroll-smooth" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VectorLabel Portal - 新一代矢量条码与出版物流标签工具站</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          primary: "#0071e3",
+          "primary-hover": "#0077ed",
+          "primary-light": "#e8f2fd",
+          secondary: "#34c759",
+          "secondary-light": "#eafaf1",
+          background: "#fbfbfd",
+          surface: "#ffffff",
+          "surface-alt": "#f5f5f7",
+          "on-surface": "#1d1d1f",
+          "on-surface-subtle": "#333336",
+          "on-surface-variant": "#86868b",
+          border: "#e5e5ea",
+          "border-subtle": "rgba(0, 0, 0, 0.06)",
+        },
+        borderRadius: {
+          DEFAULT: "0.5rem",
+          lg: "0.75rem",
+          xl: "1rem",
+          "2xl": "1.25rem",
+          full: "9999px"
+        },
+        fontFamily: {
+          "body-md": ["-apple-system", "BlinkMacSystemFont", "SF Pro Text", "Libre Franklin", "sans-serif"],
+          "headline": ["-apple-system", "BlinkMacSystemFont", "SF Pro Display", "Libre Franklin", "sans-serif"],
+          "label-code": ["SF Mono", "Space Mono", "monospace"]
+        },
+        boxShadow: {
+          "apple-sm": "0 2px 8px rgba(0, 0, 0, 0.04)",
+          "apple": "0 4px 20px rgba(0, 0, 0, 0.05)",
+          "apple-hover": "0 12px 32px rgba(0, 0, 0, 0.08)",
+          "apple-glow": "0 0 24px rgba(0, 113, 227, 0.16)",
+        }
+      }
+    }
+  };
+</script>
+</head>
+<body class="bg-[#fbfbfd] text-[#1d1d1f] font-body-md antialiased selection:bg-[#0071e3] selection:text-white">
+<!-- ================= 1. STICKY APPLE-STYLE GLASSMORPHIC NAVBAR ================= -->
+<header class="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-xl border-b border-black/[0.06] transition-all">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+<!-- Brand Logo -->
+<div class="flex items-center gap-3">
+<a class="flex items-center gap-2.5 group" href="#">
+<div class="w-9 h-9 rounded-xl bg-gradient-to-b from-[#0077ed] to-[#0071e3] flex items-center justify-center shadow-[0_2px_10px_rgba(0,113,227,0.3)] transition-transform group-hover:scale-105">
+<span class="material-symbols-outlined text-white text-[20px]">barcode_scanner</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-headline font-semibold text-[17px] tracking-tight text-[#1d1d1f]">VectorLabel</span>
+<span class="text-[10px] px-1.5 py-0.5 rounded-full bg-[#0071e3]/10 text-[#0071e3] font-label-code font-bold uppercase tracking-wider">Portal</span>
+</div>
+<span class="text-[11px] text-[#86868b] leading-none">条码与智能标签云门户</span>
+</div>
+</a>
+</div>
+<!-- Navigation Links -->
+<nav class="hidden md:flex items-center gap-1 bg-[#f5f5f7] p-1 rounded-full border border-black/[0.04]">
+<a class="px-3.5 py-1.5 text-xs font-semibold rounded-full bg-white text-[#0071e3] shadow-sm transition-all" href="#quick-generator">
+      在线生成器
+    </a>
+<a class="px-3.5 py-1.5 text-xs font-medium text-[#86868b] hover:text-[#1d1d1f] hover:bg-black/[0.03] transition-colors rounded-full" href="#symbology-hub">
+      码制工具箱
+    </a>
+<a class="px-3.5 py-1.5 text-xs font-medium text-[#86868b] hover:text-[#1d1d1f] hover:bg-black/[0.03] transition-colors rounded-full" href="#issn-suite">
+      期刊出版套件
+    </a>
+<a class="px-3.5 py-1.5 text-xs font-medium text-[#86868b] hover:text-[#1d1d1f] hover:bg-black/[0.03] transition-colors rounded-full" href="#batch-api">
+      批量与 API
+    </a>
+<a class="px-3.5 py-1.5 text-xs font-medium text-[#86868b] hover:text-[#1d1d1f] hover:bg-black/[0.03] transition-colors rounded-full" href="#compliance-docs">
+      开放文档
+    </a>
+</nav>
+<!-- Action Buttons -->
+<div class="flex items-center gap-2.5">
+<a class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#f5f5f7] hover:bg-[#e5e5ea] text-xs font-medium text-[#1d1d1f] border border-black/[0.05] transition-colors" href="https://barcode.tec-it.com/zh/ISSNP2?data=977123456789812" target="_blank">
+<span class="material-symbols-outlined text-[15px] text-[#86868b]">sync_alt</span>
+<span>TEC-IT 对照校验</span>
+</a>
+<a class="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white font-medium text-xs transition-all shadow-[0_2px_12px_rgba(0,113,227,0.3)] hover:shadow-[0_4px_16px_rgba(0,113,227,0.4)]" href="#quick-generator">
+<span class="material-symbols-outlined text-[15px]">bolt</span>
+<span>快速开箱体验</span>
+</a>
+<a class="w-8 h-8 rounded-full bg-[#f5f5f7] hover:bg-[#e5e5ea] flex items-center justify-center text-[#86868b] hover:text-[#1d1d1f] transition-colors border border-black/[0.04]" href="https://github.com" target="_blank" title="GitHub">
+<span class="material-symbols-outlined text-[17px]">code</span>
+</a>
+</div>
+</div>
+</header>
+<!-- ================= 2. HERO SECTION & INTERACTIVE QUICK GENERATOR ================= -->
+<section class="relative pt-12 pb-20 overflow-hidden bg-gradient-to-b from-[#fbfbfd] via-[#f5f5f7]/60 to-[#ffffff] border-b border-black/[0.06]">
+<!-- Subtle Apple Ambient Glows -->
+<div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[720px] h-[360px] bg-gradient-to-b from-[#0071e3]/10 to-transparent blur-[120px] pointer-events-none rounded-full"></div>
+<div class="absolute top-48 right-12 w-80 h-80 bg-[#34c759]/8 blur-[100px] pointer-events-none rounded-full"></div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<!-- Top Title Block -->
+<div class="text-center max-w-3xl mx-auto mb-12">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-black/[0.08] mb-4 shadow-apple-sm">
+<span class="w-2 h-2 rounded-full bg-[#34c759] animate-pulse"></span>
+<span class="font-label-code text-[11px] text-[#1d1d1f] font-semibold tracking-tight">符合 ISO/IEC 15420 · ISO 3297 · GS1 通用规范</span>
+</div>
+<h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#1d1d1f] mb-4 font-headline">
+        新一代矢量条码与出版物流标签工具站
+      </h1>
+<p class="text-sm sm:text-base text-[#86868b] leading-relaxed max-w-2xl mx-auto">
+        面向图书期刊出版、国际现代物流与智能零售的零安装在线矢量标签门户。毫秒级校验位推导、严格静区与条宽缩减（BWR）印刷补偿、一键免授权导出工业级 SVG 与封底排版文件。
+      </p>
+</div>
+<!-- Hero Split: Quick Generator Tool Widget & Realistic Preview Card -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch" id="quick-generator">
+<!-- Left Column: Interactive Quick Generator (7 Cols) -->
+<div class="lg:col-span-7 bg-white/95 rounded-2xl border border-black/[0.06] p-6 shadow-apple flex flex-col justify-between backdrop-blur-xl">
+<div>
+<!-- Widget Header & Preset Chips -->
+<div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-black/[0.06]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#0071e3] text-[20px]">auto_fix_high</span>
+<span class="font-headline font-semibold text-[#1d1d1f] text-base">即时条码速成小工具</span>
+</div>
+<!-- Test Preset Action -->
+<div class="flex items-center gap-2">
+<span class="text-xs text-[#86868b] font-label-code">常用测试样本:</span>
+<button class="px-2.5 py-1 rounded-full bg-[#f5f5f7] hover:bg-[#e5e5ea] text-xs font-label-code text-[#0071e3] font-semibold flex items-center gap-1 transition-colors border border-black/[0.05]" id="btn-load-sample" type="button">
+<span class="material-symbols-outlined text-[13px]">input</span>
+<span>977123456789812</span>
+</button>
+</div>
+</div>
+<!-- Category Segmented Control -->
+<div class="grid grid-cols-3 gap-1 bg-[#f5f5f7] p-1 rounded-xl my-5 text-center text-xs font-medium border border-black/[0.04]">
+<button class="py-2 px-2 rounded-lg bg-white text-[#0071e3] font-semibold shadow-sm flex items-center justify-center gap-1.5 transition-all">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+<span>期刊出版 (ISSN/ISBN)</span>
+</button>
+<button class="py-2 px-2 rounded-lg hover:bg-black/[0.03] text-[#86868b] hover:text-[#1d1d1f] transition-colors flex items-center justify-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">local_shipping</span>
+<span>物流零售 (EAN / GS1)</span>
+</button>
+<button class="py-2 px-2 rounded-lg hover:bg-black/[0.03] text-[#86868b] hover:text-[#1d1d1f] transition-colors flex items-center justify-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">qr_code_2</span>
+<span>智慧交互 (QR / Link)</span>
+</button>
+</div>
+<!-- Form Fields Grid -->
+<div class="space-y-4">
+<!-- Field 1 & 2: Prefix & ISSN Body -->
+<div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+<div class="sm:col-span-4 flex flex-col gap-1.5">
+<label class="text-xs font-medium text-[#86868b] flex items-center justify-between">
+<span>1. GS1 前缀</span>
+<span class="text-[10px] text-[#0071e3] font-label-code font-bold">连续出版物</span>
+</label>
+<div class="h-10 px-3 rounded-xl bg-[#f5f5f7] flex items-center justify-between border border-black/[0.06]">
+<span class="font-label-code text-[#1d1d1f] font-bold text-sm">977</span>
+<span class="material-symbols-outlined text-[16px] text-[#86868b]">lock</span>
+</div>
+</div>
+<div class="sm:col-span-8 flex flex-col gap-1.5">
+<label class="text-xs font-medium text-[#1d1d1f] flex items-center justify-between">
+<span>2. ISSN 刊号主体 (7位数字)</span>
+<span class="text-[10px] text-[#34c759] font-label-code font-medium">源刊号: ISSN 1234-567X</span>
+</label>
+<div class="relative">
+<input class="w-full h-10 px-3 rounded-xl bg-white border border-[#e5e5ea] focus:border-[#0071e3] focus:ring-2 focus:ring-[#0071e3]/20 text-[#1d1d1f] font-label-code text-sm outline-none transition-all shadow-apple-sm" id="input-issn-body" maxlength="7" type="text" value="1234567"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#34c759] font-label-code flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+<span>7/7 规范</span>
+</span>
+</div>
+</div>
+</div>
+<!-- Field 3, 4, 5: Variant, Checkdigit, AddOn -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+<!-- Variant -->
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-medium text-[#1d1d1f] flex items-center justify-between">
+<span>3. 变体序列号</span>
+<span class="text-[10px] text-[#86868b]">定价/版本</span>
+</label>
+<input class="h-10 px-3 rounded-xl bg-white border border-[#e5e5ea] focus:border-[#0071e3] focus:ring-2 focus:ring-[#0071e3]/20 text-[#1d1d1f] font-label-code text-sm outline-none shadow-apple-sm" id="input-issn-variant" maxlength="2" type="text" value="89"/>
+</div>
+<!-- Calculated Checkdigit -->
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-medium text-[#1d1d1f] flex items-center justify-between">
+<span>4. 校验位 Mod10</span>
+<span class="text-[10px] text-[#0071e3] font-label-code font-medium">自动推导</span>
+</label>
+<div class="h-10 px-3 rounded-xl bg-[#f5f5f7] flex items-center justify-between border border-black/[0.06]">
+<span class="font-label-code text-[#0071e3] font-bold text-base" id="label-mod10">8</span>
+<span class="text-[10px] text-[#86868b] font-label-code">AutoFix 启用</span>
+</div>
+</div>
+<!-- AddOn +2 -->
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-medium text-[#1d1d1f] flex items-center justify-between">
+<span>5. 附加码 (+2 期号)</span>
+<span class="text-[10px] text-[#0071e3] font-label-code font-medium">双月/月刊</span>
+</label>
+<input class="h-10 px-3 rounded-xl bg-white border border-[#e5e5ea] focus:border-[#0071e3] focus:ring-2 focus:ring-[#0071e3]/20 text-[#0071e3] font-label-code text-sm font-bold outline-none shadow-apple-sm" id="input-issn-addon" maxlength="2" type="text" value="12"/>
+</div>
+</div>
+<!-- Real-time Decoded Stream Bar -->
+<div class="p-3.5 rounded-xl bg-[#f5f5f7] border border-black/[0.04] flex flex-wrap items-center justify-between gap-2 text-xs">
+<div class="flex items-center gap-2">
+<span class="text-[#86868b] font-label-code text-[11px]">实时合成码流:</span>
+<span class="font-label-code text-[#1d1d1f] font-bold tracking-wider px-2.5 py-0.5 rounded-md bg-white border border-black/[0.06] shadow-apple-sm" id="stream-display">9771234567898 12</span>
+</div>
+<div class="flex items-center gap-3 text-[#86868b] text-[11px]">
+<span>校验和: <strong class="text-[#34c759] font-mono">OK</strong></span>
+<span>奇偶配对: <strong class="text-[#0071e3] font-mono">G-G (Mod4)</strong></span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Micro Specs & Quick Generate Button -->
+<div class="pt-5 mt-4 border-t border-black/[0.06] flex flex-wrap items-center justify-between gap-3">
+<div class="flex items-center gap-2 text-xs text-[#86868b]">
+<span class="w-2 h-2 rounded-full bg-[#34c759]"></span>
+<span>符合 ISO 3297:2022 与 GS1 条码标准</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3.5 py-2 rounded-full bg-[#f5f5f7] hover:bg-[#e5e5ea] text-xs font-medium text-[#1d1d1f] transition-colors flex items-center gap-1.5 border border-black/[0.04]" type="button">
+<span class="material-symbols-outlined text-[15px] text-[#86868b]">settings_input_composite</span>
+<span>高级印刷补偿参数</span>
+</button>
+<button class="px-4 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white font-medium text-xs transition-all flex items-center gap-1.5 shadow-[0_2px_12px_rgba(0,113,227,0.3)] hover:shadow-[0_4px_16px_rgba(0,113,227,0.4)]" type="button">
+<span class="material-symbols-outlined text-[16px]">draw</span>
+<span>重绘并刷新画布</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Column: Floating Live Label Card (5 Cols) -->
+<div class="lg:col-span-5 flex flex-col justify-between">
+<div class="relative bg-white rounded-2xl border border-black/[0.06] p-5 shadow-apple flex flex-col items-center justify-center">
+<!-- Floating Badge Indicator -->
+<div class="w-full flex items-center justify-between mb-4">
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0071e3]/10 text-xs text-[#0071e3] font-label-code font-semibold">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+<span>高保真矢量渲染引擎 (600 DPI)</span>
+</div>
+<span class="text-[11px] text-[#86868b] font-label-code">比例 100% · X=0.33mm</span>
+</div>
+<!-- Crisp Physical Substrate Label Card -->
+<div class="w-full bg-[#ffffff] text-[#1d1d1f] rounded-xl p-5 shadow-[0_8px_30px_rgba(0,0,0,0.08)] border border-black/[0.08] relative overflow-hidden flex flex-col items-center">
+<!-- Bleed & Quiet Zone Indicator -->
+<div class="w-full flex items-center justify-between text-[9px] font-mono text-[#86868b] pb-1.5 mb-2 border-b border-black/[0.06]">
+<span>ISO 15420 SPECIMEN [ISSN-P2]</span>
+<span class="text-[#34c759] font-bold bg-[#34c759]/10 px-2 py-0.5 rounded-full">11X QUIET ZONE PASS</span>
+</div>
+<!-- Vector Barcode SVG -->
+<div class="relative py-2 flex flex-col items-center w-full">
+<!-- Quiet Zone Overlays -->
+<div class="absolute left-1 top-0 bottom-6 w-7 bg-[#34c759]/10 border-r border-[#34c759]/30 flex items-center justify-center rounded-l">
+<span class="text-[7px] font-mono text-[#1f883d] -rotate-90 font-bold">11X</span>
+</div>
+<div class="absolute right-1 top-0 bottom-6 w-6 bg-[#34c759]/10 border-l border-[#34c759]/30 flex items-center justify-center rounded-r">
+<span class="text-[7px] font-mono text-[#1f883d] -rotate-90 font-bold">7X</span>
+</div>
+<svg class="w-full max-w-[320px] h-auto overflow-visible select-none" viewbox="0 0 340 105">
+<!-- Guard Left -->
+<rect fill="#1d1d1f" height="84" width="2" x="25" y="0"></rect>
+<rect fill="#1d1d1f" height="84" width="2" x="29" y="0"></rect>
+<!-- 7 7 1 2 3 4 -->
+<rect fill="#1d1d1f" height="76" width="3" x="35" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="2" x="41" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="4" x="47" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="2" x="54" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="3" x="61" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="4" x="67" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="4" x="75" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="2" x="83" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="2" x="90" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="5" x="96" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="3" x="105" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="2" x="113" y="0"></rect>
+<!-- Center Guard -->
+<rect fill="#1d1d1f" height="84" width="2" x="122" y="0"></rect>
+<rect fill="#1d1d1f" height="84" width="2" x="126" y="0"></rect>
+<!-- 5 6 7 8 9 8 -->
+<rect fill="#1d1d1f" height="76" width="3" x="133" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="4" x="139" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="2" x="148" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="2" x="153" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="2" x="160" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="2" x="166" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="3" x="173" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="2" x="179" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="4" x="187" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="2" x="194" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="3" x="201" y="0"></rect>
+<rect fill="#1d1d1f" height="76" width="2" x="208" y="0"></rect>
+<!-- Right Guard -->
+<rect fill="#1d1d1f" height="84" width="2" x="215" y="0"></rect>
+<rect fill="#1d1d1f" height="84" width="2" x="219" y="0"></rect>
+<!-- Addon +2 (12) -->
+<rect fill="#1d1d1f" height="71" width="2" x="242" y="5"></rect>
+<rect fill="#1d1d1f" height="71" width="4" x="246" y="5"></rect>
+<rect fill="#1d1d1f" height="71" width="2" x="254" y="5"></rect>
+<rect fill="#1d1d1f" height="71" width="4" x="259" y="5"></rect>
+<rect fill="#1d1d1f" height="71" width="2" x="267" y="5"></rect>
+<rect fill="#1d1d1f" height="71" width="3" x="274" y="5"></rect>
+<rect fill="#1d1d1f" height="71" width="2" x="281" y="5"></rect>
+<!-- HRI Text Elements -->
+<text fill="#1d1d1f" font-family="'Space Mono', monospace" font-size="11" font-weight="700" x="14" y="94">9</text>
+<text fill="#1d1d1f" font-family="'Space Mono', monospace" font-size="11" font-weight="700" letter-spacing="1.2" x="42" y="94">771234</text>
+<text fill="#1d1d1f" font-family="'Space Mono', monospace" font-size="11" font-weight="700" letter-spacing="1.2" x="135" y="94">567898</text>
+<text fill="#1d1d1f" font-family="'Space Mono', monospace" font-size="11" font-weight="700" letter-spacing="1.2" x="250" y="94">&gt; 12</text>
+</svg>
+</div>
+<!-- Footnote -->
+<div class="w-full flex items-center justify-between text-[8px] font-mono text-[#86868b] pt-1.5 border-t border-black/[0.06]">
+<span>HRI: 9 771234 567898 12</span>
+<span class="text-[#1d1d1f] font-bold">NOMINAL: 52.4 × 26.2 mm</span>
+</div>
+</div>
+<!-- Export Buttons Row (Apple style pill buttons) -->
+<div class="w-full grid grid-cols-3 gap-2 mt-4">
+<button class="py-2 px-2 rounded-xl bg-[#0071e3] hover:bg-[#0077ed] text-xs font-semibold text-white flex items-center justify-center gap-1 transition-all shadow-[0_2px_8px_rgba(0,113,227,0.25)]" type="button">
+<span class="material-symbols-outlined text-[15px]">download</span>
+<span>导出 SVG</span>
+</button>
+<button class="py-2 px-2 rounded-xl bg-[#f5f5f7] hover:bg-[#e5e5ea] text-xs font-medium text-[#1d1d1f] flex items-center justify-center gap-1 transition-colors border border-black/[0.04]" type="button">
+<span class="material-symbols-outlined text-[15px] text-[#86868b]">image</span>
+<span>高清 PNG</span>
+</button>
+<button class="py-2 px-2 rounded-xl bg-[#f5f5f7] hover:bg-[#e5e5ea] text-xs font-medium text-[#1d1d1f] flex items-center justify-center gap-1 transition-colors border border-black/[0.04]" type="button">
+<span class="material-symbols-outlined text-[15px] text-[#86868b]">picture_as_pdf</span>
+<span>PDF/X-1a</span>
+</button>
+</div>
+</div>
+<!-- Direct TEC-IT Comparator Quick Link Card -->
+<div class="mt-4 p-3.5 rounded-2xl bg-white border border-black/[0.06] flex items-center justify-between gap-3 shadow-apple">
+<div class="flex items-center gap-2.5">
+<span class="w-8 h-8 rounded-full bg-[#34c759]/10 text-[#34c759] flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">compare_arrows</span>
+</span>
+<div class="flex flex-col">
+<span class="text-xs font-semibold text-[#1d1d1f]">TEC-IT 官方云端渲染比对</span>
+<span class="text-[10px] text-[#86868b] font-label-code">ashx API 0.00% 像素位差校验</span>
+</div>
+</div>
+<a class="px-3 py-1.5 rounded-full bg-[#f5f5f7] hover:bg-[#e5e5ea] text-[#0071e3] text-xs font-semibold flex items-center gap-1 transition-colors border border-black/[0.04]" href="https://barcode.tec-it.com/zh/ISSNP2?data=977123456789812" target="_blank">
+<span>立即比对</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= 3. 3-STEP ONBOARDING WORKFLOW SEQUENCE ================= -->
+<section class="py-16 bg-[#fbfbfd] border-b border-black/[0.06]">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center max-w-2xl mx-auto mb-12">
+<span class="text-xs font-label-code text-[#0071e3] uppercase font-bold tracking-widest">Minimalist 3-Step Flow</span>
+<h2 class="text-2xl sm:text-3xl font-bold text-[#1d1d1f] mt-1.5 font-headline">
+        三步极简流程，打造出版与工业印刷级标准标签
+      </h2>
+<p class="text-xs sm:text-sm text-[#86868b] mt-2 leading-relaxed">
+        摆脱繁杂的图形软件手画条码，由行业规则引擎自动把关校验与印刷公差。
+      </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+<!-- Step 1 -->
+<div class="p-6 rounded-2xl bg-white border border-black/[0.06] shadow-apple hover:shadow-apple-hover transition-all duration-300 group hover:-translate-y-0.5">
+<div class="w-10 h-10 rounded-xl bg-[#0071e3]/10 text-[#0071e3] flex items-center justify-center font-bold text-base mb-4 font-label-code group-hover:scale-105 transition-transform">
+          01
+        </div>
+<h3 class="text-base font-semibold text-[#1d1d1f] mb-2 flex items-center gap-2 font-headline">
+<span>选择码制与行业规范</span>
+<span class="material-symbols-outlined text-[#0071e3] text-[18px]">category</span>
+</h3>
+<p class="text-xs text-[#86868b] leading-relaxed">
+          内置 EAN-13、ISSN-P2 期刊专用码、ISBN+5 图书码、GS1-128 物流箱标及 ECC200 矩阵，自动匹配对应国际标准。
+        </p>
+<div class="mt-4 flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded-full bg-[#f5f5f7] text-[10px] text-[#86868b] font-label-code border border-black/[0.04]">ISO 15420</span>
+<span class="px-2 py-0.5 rounded-full bg-[#f5f5f7] text-[10px] text-[#86868b] font-label-code border border-black/[0.04]">ISO 3297</span>
+<span class="px-2 py-0.5 rounded-full bg-[#f5f5f7] text-[10px] text-[#86868b] font-label-code border border-black/[0.04]">GS1 GenSpec</span>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="p-6 rounded-2xl bg-white border border-black/[0.06] shadow-apple hover:shadow-apple-hover transition-all duration-300 group hover:-translate-y-0.5">
+<div class="w-10 h-10 rounded-xl bg-[#34c759]/10 text-[#34c759] flex items-center justify-center font-bold text-base mb-4 font-label-code group-hover:scale-105 transition-transform">
+          02
+        </div>
+<h3 class="text-base font-semibold text-[#1d1d1f] mb-2 flex items-center gap-2 font-headline">
+<span>智能校验与载荷解析</span>
+<span class="material-symbols-outlined text-[#34c759] text-[18px]">rule</span>
+</h3>
+<p class="text-xs text-[#86868b] leading-relaxed">
+          按字段解耦输入，内置 Mod 10 / Mod 11 自动运算与奇偶校验保护（L/G/R 表自动匹配），从源头消除排版打样扫不出问题。
+        </p>
+<div class="mt-4 flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded-full bg-[#f5f5f7] text-[10px] text-[#86868b] font-label-code border border-black/[0.04]">Mod 10 AutoFix</span>
+<span class="px-2 py-0.5 rounded-full bg-[#f5f5f7] text-[10px] text-[#86868b] font-label-code border border-black/[0.04]">ISSN Mod 11 转译</span>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="p-6 rounded-2xl bg-white border border-black/[0.06] shadow-apple hover:shadow-apple-hover transition-all duration-300 group hover:-translate-y-0.5">
+<div class="w-10 h-10 rounded-xl bg-[#0071e3]/10 text-[#0071e3] flex items-center justify-center font-bold text-base mb-4 font-label-code group-hover:scale-105 transition-transform">
+          03
+        </div>
+<h3 class="text-base font-semibold text-[#1d1d1f] mb-2 flex items-center gap-2 font-headline">
+<span>工业级高保真矢量导出</span>
+<span class="material-symbols-outlined text-[#0071e3] text-[18px]">output</span>
+</h3>
+<p class="text-xs text-[#86868b] leading-relaxed">
+          一键导出原生精确贝塞尔曲线的 SVG，或直套 A6 期刊封底出版套件，支持油墨扩散补偿（BWR），直通印刷打样生产线。
+        </p>
+<div class="mt-4 flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded-full bg-[#f5f5f7] text-[10px] text-[#86868b] font-label-code border border-black/[0.04]">纯矢量 Path</span>
+<span class="px-2 py-0.5 rounded-full bg-[#f5f5f7] text-[10px] text-[#86868b] font-label-code border border-black/[0.04]">A6 封底套件</span>
+<span class="px-2 py-0.5 rounded-full bg-[#f5f5f7] text-[10px] text-[#86868b] font-label-code border border-black/[0.04]">BWR 补偿</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= 4. MODULAR TOOL GRID (功能矩阵库) ================= -->
+<section class="py-16 bg-white border-b border-black/[0.06]" id="symbology-hub">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+<div>
+<span class="text-xs font-label-code text-[#0071e3] uppercase font-bold tracking-widest">Symbology Hub &amp; Specialized Suites</span>
+<h2 class="text-2xl sm:text-3xl font-bold text-[#1d1d1f] mt-1.5 font-headline">
+          模块化工具矩阵 · 针对各行业专属调优
+        </h2>
+<p class="text-xs sm:text-sm text-[#86868b] mt-1.5">
+          集成出版印务、仓储集装箱标、数字名片与批量引擎六大核心功能模块。
+        </p>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-[#86868b] font-label-code bg-[#f5f5f7] px-3 py-1 rounded-full border border-black/[0.04]">共收录 28+ 项条码与二维矩阵</span>
+</div>
+</div>
+<!-- Grid Cards (6 Cards) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1: ISSN-P2 -->
+<div class="p-6 rounded-2xl bg-[#ffffff] border border-[#0071e3]/30 hover:border-[#0071e3] transition-all duration-300 shadow-apple hover:shadow-apple-hover flex flex-col justify-between group hover:-translate-y-0.5" id="issn-suite">
+<div>
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2 text-[#0071e3] font-bold text-base font-headline">
+<span class="material-symbols-outlined text-[#0071e3]">menu_book</span>
+<span>ISSN-P2 期刊出版码</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-[#0071e3]/10 text-[#0071e3] text-[10px] font-label-code font-bold">专有出版规范</span>
+</div>
+<p class="text-xs text-[#86868b] leading-relaxed mb-4">
+            977 专属前缀锁定，自动将 8 位 ISSN 原号校验位转译为 EAN-13 模10 校验位，并挂载 2 位期刊期号附加码。
+          </p>
+<div class="space-y-1.5 text-xs text-[#1d1d1f] bg-[#f5f5f7]/70 p-3 rounded-xl">
+<div class="flex items-center justify-between text-[11px] font-label-code">
+<span class="text-[#86868b]">支持版型:</span>
+<span class="text-[#0071e3] font-medium">A6 封底 / 骑马钉封四</span>
+</div>
+<div class="flex items-center justify-between text-[11px] font-label-code">
+<span class="text-[#86868b]">标准依据:</span>
+<span class="text-[#34c759] font-medium">ISO 3297:2022</span>
+</div>
+</div>
+</div>
+<div class="pt-5 mt-4 border-t border-black/[0.06] flex items-center justify-between">
+<span class="text-[11px] text-[#0071e3] font-medium">含读者互动双码并排</span>
+<a class="px-3 py-1.5 rounded-full bg-[#0071e3]/10 group-hover:bg-[#0071e3] group-hover:text-white text-xs font-semibold text-[#0071e3] transition-all flex items-center gap-1" href="#quick-generator">
+<span>立即生成</span>
+<span class="material-symbols-outlined text-[13px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Card 2: ISBN-13+5 -->
+<div class="p-6 rounded-2xl bg-[#ffffff] border border-black/[0.06] hover:border-[#0071e3]/50 transition-all duration-300 shadow-apple hover:shadow-apple-hover flex flex-col justify-between group hover:-translate-y-0.5">
+<div>
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2 text-[#1d1d1f] font-bold text-base font-headline">
+<span class="material-symbols-outlined text-[#34c759]">import_contacts</span>
+<span>ISBN-13+5 图书出版码</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-[#f5f5f7] text-[#86868b] text-[10px] font-label-code font-medium">图书专著</span>
+</div>
+<p class="text-xs text-[#86868b] leading-relaxed mb-4">
+            兼容 978 / 979 前缀的全球标准图书条码，支持挂载 5 位国际价格附加码（Price Add-On），自动格式化短横线。
+          </p>
+<div class="space-y-1.5 text-xs text-[#1d1d1f] bg-[#f5f5f7]/70 p-3 rounded-xl">
+<div class="flex items-center justify-between text-[11px] font-label-code">
+<span class="text-[#86868b]">附加码格式:</span>
+<span class="text-[#1d1d1f] font-medium">EAN-5 (币种/定价编码)</span>
+</div>
+<div class="flex items-center justify-between text-[11px] font-label-code">
+<span class="text-[#86868b]">标准依据:</span>
+<span class="text-[#34c759] font-medium">ISO 2108</span>
+</div>
+</div>
+</div>
+<div class="pt-5 mt-4 border-t border-black/[0.06] flex items-center justify-between">
+<span class="text-[11px] text-[#86868b]">定价附加码自动对齐</span>
+<a class="px-3 py-1.5 rounded-full bg-[#f5f5f7] group-hover:bg-[#0071e3] group-hover:text-white text-xs font-semibold text-[#1d1d1f] transition-all flex items-center gap-1" href="#quick-generator">
+<span>立即生成</span>
+<span class="material-symbols-outlined text-[13px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Card 3: GS1-128 物流箱标 -->
+<div class="p-6 rounded-2xl bg-[#ffffff] border border-black/[0.06] hover:border-[#0071e3]/50 transition-all duration-300 shadow-apple hover:shadow-apple-hover flex flex-col justify-between group hover:-translate-y-0.5">
+<div>
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2 text-[#1d1d1f] font-bold text-base font-headline">
+<span class="material-symbols-outlined text-[#0071e3]">local_shipping</span>
+<span>GS1-128 国际物流箱标</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-[#f5f5f7] text-[#86868b] text-[10px] font-label-code font-medium">仓储托盘</span>
+</div>
+<p class="text-xs text-[#86868b] leading-relaxed mb-4">
+            集成 SSCC-18 系列集装箱序号与托盘运单标准，自动添加 FNC1 控制符与 AI 应用标识符，生成标准物流运输面单。
+          </p>
+<div class="space-y-1.5 text-xs text-[#1d1d1f] bg-[#f5f5f7]/70 p-3 rounded-xl">
+<div class="flex items-center justify-between text-[11px] font-label-code">
+<span class="text-[#86868b]">典型标识符:</span>
+<span class="text-[#1d1d1f] font-medium">AI(00) SSCC / AI(01) GTIN</span>
+</div>
+<div class="flex items-center justify-between text-[11px] font-label-code">
+<span class="text-[#86868b]">标准依据:</span>
+<span class="text-[#34c759] font-medium">ISO/IEC 15417</span>
+</div>
+</div>
+</div>
+<div class="pt-5 mt-4 border-t border-black/[0.06] flex items-center justify-between">
+<span class="text-[11px] text-[#86868b]">支持 ITF-14 瓦楞纸箱</span>
+<a class="px-3 py-1.5 rounded-full bg-[#f5f5f7] group-hover:bg-[#0071e3] group-hover:text-white text-xs font-semibold text-[#1d1d1f] transition-all flex items-center gap-1" href="#quick-generator">
+<span>立即生成</span>
+<span class="material-symbols-outlined text-[13px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Card 4: GS1 Digital Link -->
+<div class="p-6 rounded-2xl bg-[#ffffff] border border-black/[0.06] hover:border-[#0071e3]/50 transition-all duration-300 shadow-apple hover:shadow-apple-hover flex flex-col justify-between group hover:-translate-y-0.5">
+<div>
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2 text-[#1d1d1f] font-bold text-base font-headline">
+<span class="material-symbols-outlined text-[#0071e3]">qr_code_2</span>
+<span>GS1 Digital Link 智能码</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-[#f5f5f7] text-[#86868b] text-[10px] font-label-code font-medium">下一代零售</span>
+</div>
+<p class="text-xs text-[#86868b] leading-relaxed mb-4">
+            将传统一维商品条码升级为带 Web 链接的标准二维 QR 矩阵，扫描直达商品溯源、电子说明书或读者订阅主页。
+          </p>
+<div class="space-y-1.5 text-xs text-[#1d1d1f] bg-[#f5f5f7]/70 p-3 rounded-xl">
+<div class="flex items-center justify-between text-[11px] font-label-code">
+<span class="text-[#86868b]">矩阵格式:</span>
+<span class="text-[#1d1d1f] font-medium">QR Code 2005 / DataMatrix</span>
+</div>
+<div class="flex items-center justify-between text-[11px] font-label-code">
+<span class="text-[#86868b]">标准依据:</span>
+<span class="text-[#34c759] font-medium">GS1 Digital Link v1.2</span>
+</div>
+</div>
+</div>
+<div class="pt-5 mt-4 border-t border-black/[0.06] flex items-center justify-between">
+<span class="text-[11px] text-[#86868b]">2027 零售全面换码过渡</span>
+<a class="px-3 py-1.5 rounded-full bg-[#f5f5f7] group-hover:bg-[#0071e3] group-hover:text-white text-xs font-semibold text-[#1d1d1f] transition-all flex items-center gap-1" href="#quick-generator">
+<span>立即生成</span>
+<span class="material-symbols-outlined text-[13px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Card 5: TEC-IT 参数直通比对器 -->
+<div class="p-6 rounded-2xl bg-[#ffffff] border border-[#34c759]/30 hover:border-[#34c759] transition-all duration-300 shadow-apple hover:shadow-apple-hover flex flex-col justify-between group hover:-translate-y-0.5">
+<div>
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2 text-[#34c759] font-bold text-base font-headline">
+<span class="material-symbols-outlined text-[#34c759]">cloud_sync</span>
+<span>TEC-IT 参数直通比对器</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-[#34c759]/10 text-[#34c759] text-[10px] font-label-code font-bold">双源核验</span>
+</div>
+<p class="text-xs text-[#86868b] leading-relaxed mb-4">
+            一键无缝映射并比对奥地利 TEC-IT 官方远端渲染服务（barcode.tec-it.com/barcode.ashx），检验条宽公差与字符排版真实性。
+          </p>
+<div class="space-y-1.5 text-xs text-[#1d1d1f] bg-[#f5f5f7]/70 p-3 rounded-xl">
+<div class="flex items-center justify-between text-[11px] font-label-code">
+<span class="text-[#86868b]">比对容差:</span>
+<span class="text-[#0071e3] font-medium">0 偏差严格位流匹配</span>
+</div>
+<div class="flex items-center justify-between text-[11px] font-label-code">
+<span class="text-[#86868b]">接口规范:</span>
+<span class="text-[#34c759] font-medium">TEC-IT TBarCode Engine</span>
+</div>
+</div>
+</div>
+<div class="pt-5 mt-4 border-t border-black/[0.06] flex items-center justify-between">
+<span class="text-[11px] text-[#34c759] font-medium">官方 ASHX 协议兼容</span>
+<a class="px-3 py-1.5 rounded-full bg-[#34c759]/10 group-hover:bg-[#34c759] group-hover:text-white text-xs font-semibold text-[#34c759] transition-all flex items-center gap-1" href="https://barcode.tec-it.com/zh/ISSNP2?data=977123456789812" target="_blank">
+<span>启动核验</span>
+<span class="material-symbols-outlined text-[13px]">launch</span>
+</a>
+</div>
+</div>
+<!-- Card 6: 批量流水号与 CSV 导入 -->
+<div class="p-6 rounded-2xl bg-[#ffffff] border border-black/[0.06] hover:border-[#0071e3]/50 transition-all duration-300 shadow-apple hover:shadow-apple-hover flex flex-col justify-between group hover:-translate-y-0.5" id="batch-api">
+<div>
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2 text-[#1d1d1f] font-bold text-base font-headline">
+<span class="material-symbols-outlined text-[#0071e3]">dynamic_feed</span>
+<span>批量流水号与 CSV 导入</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-[#f5f5f7] text-[#86868b] text-[10px] font-label-code font-medium">生产套印</span>
+</div>
+<p class="text-xs text-[#86868b] leading-relaxed mb-4">
+            支持按固定步长批量生成期刊年期序列号、仓储箱号，或导入 CSV 表格一键合成万级矢量 ZIP 压缩包或连排拼版 PDF。
+          </p>
+<div class="space-y-1.5 text-xs text-[#1d1d1f] bg-[#f5f5f7]/70 p-3 rounded-xl">
+<div class="flex items-center justify-between text-[11px] font-label-code">
+<span class="text-[#86868b]">单批上限:</span>
+<span class="text-[#1d1d1f] font-medium">50,000 枚 / 批次 (本地Worker)</span>
+</div>
+<div class="flex items-center justify-between text-[11px] font-label-code">
+<span class="text-[#86868b]">输出打包:</span>
+<span class="text-[#34c759] font-medium">ZIP / 多页 PDF / EPS</span>
+</div>
+</div>
+</div>
+<div class="pt-5 mt-4 border-t border-black/[0.06] flex items-center justify-between">
+<span class="text-[11px] text-[#86868b]">无服务器端数据留存</span>
+<a class="px-3 py-1.5 rounded-full bg-[#f5f5f7] group-hover:bg-[#0071e3] group-hover:text-white text-xs font-semibold text-[#1d1d1f] transition-all flex items-center gap-1" href="#quick-generator">
+<span>批量体验</span>
+<span class="material-symbols-outlined text-[13px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= 5. STANDARDS COMPLIANCE & APPLE-STYLE FOOTER ================= -->
+<footer class="bg-[#f5f5f7] text-[#1d1d1f] border-t border-black/[0.06] pt-12 pb-10" id="compliance-docs">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Standards Badges Ribbon -->
+<div class="pb-10 mb-10 border-b border-black/[0.06] flex flex-wrap items-center justify-between gap-6">
+<div>
+<span class="text-xs font-label-code text-[#0071e3] uppercase font-bold tracking-wider">Verified Standards</span>
+<p class="text-sm font-semibold text-[#1d1d1f] mt-1 font-headline">全流程遵循国际印刷与商品标识权威规范</p>
+</div>
+<div class="flex flex-wrap items-center gap-3">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-black/[0.06] shadow-apple-sm">
+<span class="w-2 h-2 rounded-full bg-[#0071e3]"></span>
+<span class="text-xs font-label-code text-[#1d1d1f] font-semibold">ISO/IEC 15420:2009</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-black/[0.06] shadow-apple-sm">
+<span class="w-2 h-2 rounded-full bg-[#0071e3]"></span>
+<span class="text-xs font-label-code text-[#1d1d1f] font-semibold">ISO 3297:2022 (ISSN)</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-black/[0.06] shadow-apple-sm">
+<span class="w-2 h-2 rounded-full bg-[#0071e3]"></span>
+<span class="text-xs font-label-code text-[#1d1d1f] font-semibold">GS1 General Specs v23</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-black/[0.06] shadow-apple-sm">
+<span class="w-2 h-2 rounded-full bg-[#34c759]"></span>
+<span class="text-xs font-label-code text-[#34c759] font-semibold">TEC-IT Compatible</span>
+</div>
+</div>
+</div>
+<!-- Links & Cheat-sheet Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12 text-xs">
+<!-- Col 1: About -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-lg bg-[#0071e3] flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-white text-[15px]">barcode_scanner</span>
+</div>
+<span class="font-headline font-semibold text-[#1d1d1f] text-sm">VectorLabel Portal</span>
+</div>
+<p class="text-[#86868b] leading-relaxed">
+          专注为中文连续出版物、图书出版发行社与现代物流印刷企业提供零误差、开放透明的矢量条码与智慧标签生产套件。
+        </p>
+<span class="text-[11px] text-[#86868b] font-label-code">
+          Core Engine: Build v4.2.89 · Ready
+        </span>
+</div>
+<!-- Col 2: Symbology Cheat Sheet -->
+<div class="flex flex-col gap-2">
+<span class="font-bold text-[#1d1d1f] uppercase font-label-code text-[11px] mb-1">码制对照速查 (Cheat-sheet)</span>
+<a class="text-[#86868b] hover:text-[#0071e3] transition-colors flex items-center justify-between" href="#quick-generator">
+<span>ISSN-P2 (977 + 2位期刊号)</span>
+<span class="font-label-code text-[10px]">ISO 3297</span>
+</a>
+<a class="text-[#86868b] hover:text-[#0071e3] transition-colors flex items-center justify-between" href="#quick-generator">
+<span>ISBN-13+5 (978 图书定价)</span>
+<span class="font-label-code text-[10px]">ISO 2108</span>
+</a>
+<a class="text-[#86868b] hover:text-[#0071e3] transition-colors flex items-center justify-between" href="#quick-generator">
+<span>GS1-128 / ITF-14 运输标</span>
+<span class="font-label-code text-[10px]">ISO 15417</span>
+</a>
+<a class="text-[#86868b] hover:text-[#0071e3] transition-colors flex items-center justify-between" href="#quick-generator">
+<span>QR Code Model 2 (Digital Link)</span>
+<span class="font-label-code text-[10px]">ISO 18004</span>
+</a>
+</div>
+<!-- Col 3: Developer & API -->
+<div class="flex flex-col gap-2">
+<span class="font-bold text-[#1d1d1f] uppercase font-label-code text-[11px] mb-1">开发者开放接口 (API)</span>
+<a class="text-[#86868b] hover:text-[#0071e3] transition-colors" href="#">
+          RESTful 矢量渲染接口规范
+        </a>
+<a class="text-[#86868b] hover:text-[#0071e3] transition-colors" href="#">
+          TEC-IT ASHX 参数兼容映射手册
+        </a>
+<a class="text-[#86868b] hover:text-[#0071e3] transition-colors" href="#">
+          离线 WebAssembly 编码核心 (C/Rust)
+        </a>
+<a class="text-[#86868b] hover:text-[#0071e3] transition-colors" href="#">
+          Docker 私有化部署镜像
+        </a>
+</div>
+<!-- Col 4: Quick Copy Code Snippet -->
+<div class="flex flex-col gap-2">
+<span class="font-bold text-[#1d1d1f] uppercase font-label-code text-[11px] mb-1">CLI / 快速集成引用</span>
+<div class="p-3 rounded-xl bg-white border border-black/[0.06] font-label-code text-[11px] text-[#0071e3] flex flex-col gap-1 shadow-apple-sm">
+<span class="text-[#86868b]"># 即刻引用矢量引擎</span>
+<code class="text-xs select-all text-[#1d1d1f] font-mono font-semibold">npm i @vectorlabel/engine</code>
+<span class="text-[10px] text-[#34c759]">const svg = renderISSN('1234567');</span>
+</div>
+<span class="text-[10px] text-[#86868b] mt-1">
+          开源协议: MIT License · 永久无商业收费门槛
+        </span>
+</div>
+</div>
+<!-- Bottom Copyright & Disclaimer -->
+<div class="pt-6 border-t border-black/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#86868b]">
+<p>© 2025 VectorLabel Portal. All rights reserved. 遵循 ISO/IEC 15420 与 GS1 通用规范。</p>
+<div class="flex items-center gap-4">
+<a class="hover:text-[#1d1d1f] transition-colors" href="#">隐私权政策</a>
+<span>·</span>
+<a class="hover:text-[#1d1d1f] transition-colors" href="#">印刷公差校准指南</a>
+<span>·</span>
+<a class="hover:text-[#1d1d1f] transition-colors" href="#">免责声明</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ================= 6. CLIENT INTERACTIONS ================= -->
+<script>
+  (function initPortalInteractions() {
+    const sampleBtn = document.getElementById('btn-load-sample');
+    const issnBody = document.getElementById('input-issn-body');
+    const issnVariant = document.getElementById('input-issn-variant');
+    const issnAddon = document.getElementById('input-issn-addon');
+    const streamDisplay = document.getElementById('stream-display');
+    const mod10Display = document.getElementById('label-mod10');
+
+    function updateStream() {
+      if (!issnBody || !issnVariant || !issnAddon || !streamDisplay) return;
+      const b = issnBody.value.trim() || '1234567';
+      const v = issnVariant.value.trim() || '89';
+      const a = issnAddon.value.trim() || '12';
+      
+      const full12 = '977' + b.padEnd(7, '0').slice(0, 7) + v.padEnd(2, '0').slice(0, 2);
+      let sum = 0;
+      for (let i = 0; i < 12; i++) {
+        const num = parseInt(full12[i], 10) || 0;
+        sum += (i % 2 === 0) ? num : (num * 3);
+      }
+      const check = (10 - (sum % 10)) % 10;
+      if (mod10Display) mod10Display.textContent = check;
+      streamDisplay.textContent = `${full12}${check} ${a}`;
+    }
+
+    if (sampleBtn && issnBody && issnVariant && issnAddon) {
+      sampleBtn.addEventListener('click', () => {
+        issnBody.value = '1234567';
+        issnVariant.value = '89';
+        issnAddon.value = '12';
+        updateStream();
+      });
+    }
+
+    [issnBody, issnVariant, issnAddon].forEach(inp => {
+      if (inp) inp.addEventListener('input', updateStream);
+    });
+  })();
+</script>
+</body></html>

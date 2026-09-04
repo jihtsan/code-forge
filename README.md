@@ -59,3 +59,16 @@ Never commit the API key or place it in client-side source code.
 - [Stitch Agent Skills](https://stitch.withgoogle.com/docs/skills/get-started/)
 - [Stitch MCP setup](https://stitch.withgoogle.com/docs/mcp/setup/)
 - [Stitch Skills repository](https://github.com/google-labs-code/stitch-skills)
+
+## Run the VectorLabel implementation
+
+This is a Vite application and must be served over HTTP; opening `index.html`
+directly with a `file://` URL does not load the TypeScript module graph.
+
+```bash
+npm install
+npm run dev
+```
+
+Then open <http://127.0.0.1:4173/>. The encoding workbench is available at
+<http://127.0.0.1:4173/engine>.
