@@ -1,4 +1,4 @@
-import { Code2, Moon, Sun, Zap, X, Menu, ArrowUpRight, ScanLine } from "lucide-react";
+import { Code2, Moon, Sun, Zap, X, Menu, ScanLine } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { navigationItems } from "../data/mockData";
@@ -46,15 +46,6 @@ export const TopNav = ({
         </nav>
 
         <div className="top-nav__actions">
-          <a
-            className="button button--quiet top-nav__tec"
-            href="https://barcode.tec-it.com/zh/ISSNP2?data=977123456789812"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <ArrowUpRight size={14} aria-hidden="true" />
-            <span>TEC-IT 对照校验</span>
-          </a>
           <Link className="button button--primary top-nav__quick" to="/#quick-generator">
             <Zap size={14} fill="currentColor" aria-hidden="true" />
             <span>快速开箱体验</span>

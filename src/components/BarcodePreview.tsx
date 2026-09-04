@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Check, Clipboard, Download, ExternalLink, FileImage, FileText, ShieldCheck } from "lucide-react";
+import { Check, Clipboard, Download, FileImage, FileText, ShieldCheck } from "lucide-react";
 import { buildBarcodeSvg } from "../lib/barcode";
 import type { IssnGeneratorResult } from "../hooks/useIssnGenerator";
 import { BarcodeGraphic } from "./BarcodeGraphic";
@@ -109,17 +109,6 @@ export const BarcodePreview = ({ generator, darkMode, onNotify }: BarcodePreview
           <Clipboard size={13} aria-hidden="true" />
           复制 SVG 源码
         </button>
-      </div>
-
-      <div className="comparator-card panel-surface">
-        <div className="comparator-card__icon" aria-hidden="true"><ExternalLink size={16} /></div>
-        <div className="comparator-card__copy">
-          <strong>TEC-IT 官方云端渲染比对</strong>
-          <span>ashx API 0.00% 像素位差校验</span>
-        </div>
-        <a className="button button--quiet comparator-card__link" href={`https://barcode.tec-it.com/zh/ISSNP2?data=${fullValue}${generator.addon}`} target="_blank" rel="noreferrer">
-          立即比对 <ExternalLink size={12} aria-hidden="true" />
-        </a>
       </div>
     </section>
   );

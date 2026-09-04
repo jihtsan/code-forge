@@ -78,7 +78,6 @@ export const navigationItems: readonly NavigationItem[] = [
   { label: "在线生成器", href: "/#quick-generator" },
   { label: "码制工具箱", href: "/#symbology-hub" },
   { label: "期刊出版套件", href: "/#issn-suite" },
-  { label: "批量与 API", href: "/#batch-api" },
   { label: "开放文档", href: "/#compliance-docs" },
 ];
 
