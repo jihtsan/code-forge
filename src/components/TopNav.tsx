@@ -1,7 +1,7 @@
 import { Code2, Moon, Sun, Zap, X, Menu, ScanLine } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { navigationItems } from "../data/mockData";
+import { brand, navigationItems } from "../data/mockData";
 import { BrandMark } from "./BrandMark";
 
 export interface TopNavProps {
@@ -20,7 +20,7 @@ export const TopNav = ({
   return (
     <header className="top-nav">
       <div className="shell top-nav__inner">
-        <Link className="top-nav__brand" to="/" aria-label="返回 VectorLabel 首页" onClick={() => setMobileOpen(false)}>
+        <Link className="top-nav__brand" to="/" aria-label={`返回 ${brand.name} 首页`} onClick={() => setMobileOpen(false)}>
           <BrandMark />
         </Link>
 

@@ -86,7 +86,7 @@ export const BarcodePreview = ({
       downloadUnavailable();
       return;
     }
-    const filename = `vectorlabel-${symbology}-${filenameValue}.svg`;
+    const filename = `code-forge-${symbology}-${filenameValue}.svg`;
     downloadText(svg, filename, "image/svg+xml");
     onNotify("SVG 已导出");
   };
@@ -118,7 +118,7 @@ export const BarcodePreview = ({
           return;
         }
         const url = URL.createObjectURL(blob);
-        triggerDownload(url, `vectorlabel-${symbology}-${filenameValue}.png`);
+        triggerDownload(url, `code-forge-${symbology}-${filenameValue}.png`);
         onNotify("高清 PNG 已导出");
       }, "image/png");
     };

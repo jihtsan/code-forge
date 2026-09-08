@@ -140,10 +140,10 @@ export const PortalPage = ({ darkMode, onToggleDarkMode }: PortalPageProps) => {
     try {
       downloadZip(
         validItems.map(({ item, render }) => ({
-          filename: `vectorlabel-batch-${activeSymbology}-${String(item.index + 1).padStart(2, "0")}-${sanitizeFilenamePart(item.value)}.svg`,
+          filename: `code-forge-batch-${activeSymbology}-${String(item.index + 1).padStart(2, "0")}-${sanitizeFilenamePart(item.value)}.svg`,
           content: render.svg,
         })),
-        `vectorlabel-batch-${activeSymbology}-${validItems.length}`,
+        `code-forge-batch-${activeSymbology}-${validItems.length}`,
       );
     } catch (error) {
       console.error("批量 ZIP 导出失败", error);

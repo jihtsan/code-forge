@@ -50,7 +50,7 @@ export const StandardsFooter = () => (
       </div>
 
       <div className="footer-bottom">
-        <span>© 2025 VectorLabel Portal. All rights reserved. 遵循 ISO/IEC 15420 与 GS1 通用规范。</span>
+        <span>© 2025 {brand.name} Portal. All rights reserved. 遵循 ISO/IEC 15420 与 GS1 通用规范。</span>
         <span>本地处理 · 无需上传</span>
       </div>
     </div>
