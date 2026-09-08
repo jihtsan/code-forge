@@ -73,6 +73,26 @@ npm run dev
 Then open <http://127.0.0.1:4173/>. The encoding workbench is available at
 <http://127.0.0.1:4173/engine>.
 
+## Deploy to Cloudflare Workers
+
+The application is deployed as Cloudflare Workers Static Assets. Authenticate
+the Wrangler CLI once, then deploy the production build:
+
+```bash
+npx wrangler login
+npm run deploy
+```
+
+To test the Worker routing locally, including direct navigation to `/engine`,
+run:
+
+```bash
+npm run cf:dev
+```
+
+The custom `www` hostname is configured as a Cloudflare Worker custom domain.
+Its zone must already be active in the same Cloudflare account used by Wrangler.
+
 Batch mode accepts UTF-8 CSV files up to 2 MB. It reads a column named `data`,
 `value`, `barcode`, `code`, or the corresponding Chinese label; when no known
 header is present, it uses the first column. A batch is limited to 50 items and
