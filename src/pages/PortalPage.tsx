@@ -241,7 +241,7 @@ export const PortalPage = ({ darkMode, onToggleDarkMode }: PortalPageProps) => {
         <WorkflowSection onStepSelect={() => scrollToGenerator()} />
         <ToolMatrix activeCategory={activeCategory} activeSymbology={activeSymbology} onUseTool={scrollToGenerator} />
       </main>
-      <StandardsFooter onNotify={notify} />
+      <StandardsFooter />
       {toast && <Toast message={toast} onDismiss={() => setToast(null)} />}
     </div>
   );

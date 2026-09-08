@@ -72,3 +72,8 @@ npm run dev
 
 Then open <http://127.0.0.1:4173/>. The encoding workbench is available at
 <http://127.0.0.1:4173/engine>.
+
+Batch mode accepts UTF-8 CSV files up to 2 MB. It reads a column named `data`,
+`value`, `barcode`, `code`, or the corresponding Chinese label; when no known
+header is present, it uses the first column. A batch is limited to 50 items and
+valid results can be downloaded together as a ZIP of SVG files.
