@@ -90,7 +90,7 @@ export const BatchBarcodePanel = ({
     }
     downloadSvg(
       item.render.svg,
-      `vectorlabel-batch-${id}-${String(item.index + 1).padStart(2, "0")}-${sanitizeFilenamePart(item.value)}.svg`,
+      `code-forge-batch-${id}-${String(item.index + 1).padStart(2, "0")}-${sanitizeFilenamePart(item.value)}.svg`,
     );
     onNotify(`第 ${item.index + 1} 条 SVG 已导出`);
   };

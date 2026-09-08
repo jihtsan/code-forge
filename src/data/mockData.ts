@@ -102,7 +102,7 @@ export const engineTabs: readonly EngineTab[] = [
 ];
 
 export const brand = {
-  name: "VectorLabel",
+  name: "code-forge",
   badge: "Portal",
   tagline: "条码与智能标签云门户",
 } as const;

@@ -60,7 +60,7 @@ Never commit the API key or place it in client-side source code.
 - [Stitch MCP setup](https://stitch.withgoogle.com/docs/mcp/setup/)
 - [Stitch Skills repository](https://github.com/google-labs-code/stitch-skills)
 
-## Run the VectorLabel implementation
+## Run the code-forge implementation
 
 This is a Vite application and must be served over HTTP; opening `index.html`
 directly with a `file://` URL does not load the TypeScript module graph.

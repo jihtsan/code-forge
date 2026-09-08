@@ -42,7 +42,7 @@ export const EnginePage = ({ darkMode, onToggleDarkMode }: EnginePageProps) => {
     <div className="engine-page">
       <header className="engine-topbar">
         <div className="engine-topbar__brand">
-          <Link to="/" aria-label="返回 VectorLabel 首页"><BrandMark compact /></Link>
+          <Link to="/" aria-label={`返回 ${brand.name} 首页`}><BrandMark compact /></Link>
           <span className="engine-topbar__divider" />
           <div>
             <strong>{brand.name} 编码工作台</strong>

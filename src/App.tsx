@@ -9,7 +9,7 @@ export interface AppProps {
 
 const readInitialTheme = (): boolean => {
   try {
-    return window.localStorage.getItem("vectorlabel-theme") === "dark";
+    return window.localStorage.getItem("code-forge-theme") === "dark";
   } catch {
     return false;
   }
@@ -22,7 +22,7 @@ export const App = ({ className = "" }: AppProps) => {
     document.documentElement.classList.toggle("dark", darkMode);
     document.documentElement.style.colorScheme = darkMode ? "dark" : "light";
     try {
-      window.localStorage.setItem("vectorlabel-theme", darkMode ? "dark" : "light");
+      window.localStorage.setItem("code-forge-theme", darkMode ? "dark" : "light");
     } catch {
       // Private browsing can disable local storage; the in-memory preference still works.
     }
