@@ -85,7 +85,7 @@ export const navigationItems: readonly NavigationItem[] = [
   { label: "在线生成器", href: "/#quick-generator" },
   { label: "码制工具箱", href: "/#symbology-hub" },
   { label: "期刊出版套件", href: "/#issn-suite" },
-  { label: "开放文档", href: "/#compliance-docs" },
+  { label: "格式与规范", href: "/#compliance-docs" },
 ];
 
 export const footerCheatSheet: readonly FooterLink[] = [
@@ -93,13 +93,6 @@ export const footerCheatSheet: readonly FooterLink[] = [
   { label: "ISBN-13+5（978 图书定价）", href: "/#quick-generator", meta: "ISO 2108" },
   { label: "GS1-128 / ITF-14 运输标", href: "/#quick-generator", meta: "ISO 15417" },
   { label: "QR Code Model 2（Digital Link）", href: "/#quick-generator", meta: "ISO 18004" },
-];
-
-export const footerDeveloperLinks: readonly FooterLink[] = [
-  { label: "RESTful 矢量渲染接口规范", href: "/engine" },
-  { label: "TEC-IT ASHX 参数兼容映射手册", href: "https://barcode.tec-it.com/zh/ISSNP2?data=977123456789812" },
-  { label: "离线 WebAssembly 编码核心（C/Rust）", href: "/engine" },
-  { label: "Docker 私有化部署镜像", href: "/engine" },
 ];
 
 export const engineTabs: readonly EngineTab[] = [
@@ -112,7 +105,6 @@ export const brand = {
   name: "VectorLabel",
   badge: "Portal",
   tagline: "条码与智能标签云门户",
-  engineVersion: "Core Engine: Build v4.2.89 · Ready",
 } as const;
 
 export const portalCopy = {
@@ -265,13 +257,13 @@ export const toolCards: readonly ToolCardData[] = [
   },
   {
     id: "batch-api",
-    title: "批量流水号与逐行导入",
+    title: "批量流水号与 CSV 导入",
     eyebrow: "生产套印",
     description:
-      "支持固定步长生成序列号，或逐行粘贴数据；前 5 条即时预览，其余条目可从省略号菜单逐条导出。",
+      "支持固定步长生成序列号、逐行粘贴或导入 CSV；前 5 条即时预览，并可将有效条码打包为 ZIP。",
     detailLabel: "单批上限",
     detailValue: "50 枚 / 批次（浏览器内生成）",
-    standard: "SVG / PNG",
+    standard: "SVG / PNG / ZIP",
     footer: "数据仅在浏览器内处理",
     action: "批量体验",
     icon: FileSpreadsheet,
@@ -338,18 +330,3 @@ export const pipelineNodes: readonly PipelineNodeData[] = [
     icon: FileSpreadsheet,
   },
 ];
-
-export const footerColumns = {
-  cheatsheet: [
-    "ISSN-P2（977 + 2位期刊号）",
-    "ISBN-13+5（978 图书定价）",
-    "GS1-128 / ITF-14 运输标",
-    "QR Code Model 2（Digital Link）",
-  ],
-  developer: [
-    "RESTful 矢量渲染接口规范",
-    "TEC-IT ASHX 参数兼容映射手册",
-    "离线 WebAssembly 编码核心",
-    "Docker 私有化部署镜像",
-  ],
-} as const;

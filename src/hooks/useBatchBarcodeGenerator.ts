@@ -29,6 +29,7 @@ export interface BatchBarcodeState {
   readonly setManualText: (value: string) => void;
   readonly setSelectedIndex: (value: number) => void;
   readonly generate: () => void;
+  readonly generateManual: (text: string) => number;
   readonly reset: () => void;
 }
 
@@ -157,6 +158,17 @@ export const useBatchBarcodeGenerator = ({
     setGeneratedSignature(generationSignature(sourceValue, mode, count, step, manualText));
   }, [count, manualText, mode, normalize, sourceValue, step]);
 
+  const generateManual = useCallback((text: string): number => {
+    const nextItems = normalizeManualItems(text, normalize);
+
+    setMode("manual");
+    setManualTextState(text);
+    setItems(nextItems);
+    setSelectedIndexState(0);
+    setGeneratedSignature(generationSignature(sourceValue, "manual", count, step, text));
+    return nextItems.length;
+  }, [count, normalize, sourceValue, step]);
+
   const reset = useCallback(() => {
     setEnabled(false);
     setMode("increment");
@@ -200,6 +212,7 @@ export const useBatchBarcodeGenerator = ({
     setManualText: setManualTextState,
     setSelectedIndex,
     generate,
+    generateManual,
     reset,
   };
 };
