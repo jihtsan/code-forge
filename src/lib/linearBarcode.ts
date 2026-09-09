@@ -170,12 +170,14 @@ export const buildLinearBarcodeSvg = ({
   includeCheck,
   showText,
   dark = false,
+  print = false,
 }: {
   readonly id: LinearSymbologyId;
   readonly data: string;
   readonly includeCheck: boolean;
   readonly showText: boolean;
   readonly dark?: boolean;
+  readonly print?: boolean;
 }): LinearBarcodeRender => {
   const definition = definitionFor(id);
   const validation = validateLinearData(id, data, includeCheck);
@@ -191,12 +193,13 @@ export const buildLinearBarcodeSvg = ({
       scale: 2,
       height: definition.height,
       padding: 8,
+      ...(print ? { paddingwidth: 12, paddingheight: 4 } : {}),
       includetext: showText,
       textxalign: "center",
       textsize: 10,
-      barcolor: dark ? "f8fafc" : "1d1d1f",
-      backgroundcolor: dark ? "171c25" : "ffffff",
-      textcolor: dark ? "f8fafc" : "1d1d1f",
+      barcolor: print ? "000000" : dark ? "f8fafc" : "1d1d1f",
+      backgroundcolor: !print && dark ? "171c25" : "ffffff",
+      textcolor: print ? "000000" : dark ? "f8fafc" : "1d1d1f",
     };
 
     if (definition.parse) options.parse = true;

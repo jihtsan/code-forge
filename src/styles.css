@@ -407,6 +407,7 @@ h1, h2, h3, p { margin: 0; }
 .linear-barcode-graphic--empty span { max-width: 100%; color: var(--muted); font-family: var(--font-mono); font-size: 8px; line-height: 1.45; overflow-wrap: anywhere; }
 .preview-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-top: 14px; }
 .preview-actions .button { min-height: 30px; padding-inline: 7px; font-size: 10px; }
+.preview-actions__print { grid-column: 1 / -1; }
 .preview-actions--batch { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .preview-actions__batch { grid-column: 1 / -1; color: var(--teal); border-color: rgba(0, 169, 157, .28); background: var(--teal-soft); }
 .preview-actions__batch:hover { color: var(--teal); border-color: rgba(0, 169, 157, .48); background: color-mix(in srgb, var(--teal-soft) 75%, var(--surface)); }

@@ -97,3 +97,51 @@ Batch mode accepts UTF-8 CSV files up to 2 MB. It reads a column named `data`,
 `value`, `barcode`, `code`, or the corresponding Chinese label; when no known
 header is present, it uses the first column. A batch is limited to 50 items and
 valid results can be downloaded together as a ZIP of SVG files.
+
+## Label printing
+
+On the generator page, use **打印标签** or **Command+P / Ctrl+P** while the page
+has focus. The dialog supports the current barcode or all valid items in the
+generated batch, label width/height in millimeters, uniform margins and copies
+per barcode. Invalid batch items are explicitly counted and skipped. Modified
+batch inputs must be regenerated to replace the existing batch.
+
+Presets are 60 × 40, 50 × 30, 40 × 30 and 100 × 150 mm. Custom labels accept
+widths of 20–210 mm and heights of 15–297 mm, with at least 10 × 10 mm of content
+area after margins. Each barcode can have 1–100 copies; a job is capped at 500
+labels. These are application limits, not a guarantee that a printer accepts
+every paper size. Settings last for the current page session.
+
+Each label is a separate printed page with monochrome SVG artwork, including
+the encoded two-digit ISSN supplement. Artwork fits proportionally within the
+label while retaining its quiet zones. The print stylesheet isolates labels
+from the site, including when using the browser's Print menu. Invalid settings
+produce an explanatory page instead of printing unrelated site content.
+
+In the system/browser print dialog:
+
+- Select a printer already configured in Windows or macOS, and select the same
+  paper dimensions as in the label dialog.
+- Use 100% / actual size, disable headers and footers, and leave system copies
+  at **1** because the application already expands each barcode's copies.
+- Configure gap/black-mark sensing and media calibration in the printer driver.
+- Print one test label and verify physical dimensions and barcode scanning
+  before running a batch, particularly for long data or small labels.
+
+This version uses standard browser printing. It cannot enumerate printers,
+scan a LAN, select a printer silently or confirm that paper was printed.
+Cross-platform printer compatibility depends on the OS, browser, driver and
+specific device; no physical model is certified yet. If a device is unavailable,
+add it in system settings or export SVG/PNG for the manufacturer's software.
+Local print helpers and printer languages such as ZPL/TSPL remain future work.
+
+The dialog's **申请适配 / 报告打印问题** section collects model, OS/version,
+connection, system-printing availability, optional DPI and a description. It
+prepares a GitHub issue link; the user must log in and submit the public issue
+themselves. Nothing is automatically posted or stored in a backend. Do not
+include private barcode payloads or other sensitive data in feedback.
+
+Validation for printing includes `npm test` (artwork, input boundaries, job
+limits and shortcut recognition), `npm run build`, and browser checks of the
+dialog, dark/mobile layouts, batch counts, print-only output and physical page
+dimensions. Actual device output still requires Windows/macOS printer testing.

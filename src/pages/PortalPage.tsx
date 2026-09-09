@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { CategoryId, SymbologyId } from "../data/mockData";
 import { isLinearSymbology } from "../data/linearSymbologies";
 import { buildLinearBarcodeSvg, normalizeLinearData } from "../lib/linearBarcode";
@@ -19,6 +19,8 @@ import { Toast } from "../components/Toast";
 import { ToolMatrix } from "../components/ToolMatrix";
 import { TopNav } from "../components/TopNav";
 import { WorkflowSection } from "../components/WorkflowSection";
+import { LabelPrintDialog } from "../components/LabelPrintDialog";
+import { buildPrintBarcode, type PrintableLabel } from "../lib/labelPrinting";
 
 export interface PortalPageProps {
   readonly darkMode: boolean;
@@ -34,6 +36,9 @@ export const PortalPage = ({ darkMode, onToggleDarkMode }: PortalPageProps) => {
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState("quick-generator");
+  const [printOpen, setPrintOpen] = useState(false);
+  const openPrint = useCallback(() => setPrintOpen(true), []);
+  const closePrint = useCallback(() => setPrintOpen(false), []);
   const linearGenerator = isLinearSymbology(activeSymbology)
     ? linearBarcodeGenerator.getState(activeSymbology)
     : undefined;
@@ -194,6 +199,18 @@ export const PortalPage = ({ darkMode, onToggleDarkMode }: PortalPageProps) => {
   };
 
   const selectedBatchItem = batch.enabled ? batch.items[batch.selectedIndex] : undefined;
+  const renderPrintItem = useCallback((value: string) => buildPrintBarcode({
+    symbology: activeSymbology, value, variant: generator.variant, addon: generator.addon,
+    checksumMode: code11Generator.checksumMode, showCheckDigits: code11Generator.showCheckDigits,
+    includeCheck: linearIncludeCheck, showText: linearShowText,
+  }), [activeSymbology, generator.variant, generator.addon, code11Generator.checksumMode, code11Generator.showCheckDigits, linearIncludeCheck, linearShowText]);
+  const currentPrintValue = batch.enabled ? selectedBatchItem?.value ?? "" : batchSourceValue;
+  const currentPrintRender = useMemo(() => renderPrintItem(currentPrintValue), [renderPrintItem, currentPrintValue]);
+  const currentPrintLabel = useMemo(() => currentPrintRender.svg ? { value: currentPrintValue, svg: currentPrintRender.svg } : null, [currentPrintRender, currentPrintValue]);
+  const batchPrintLabels = useMemo((): readonly PrintableLabel[] => batch.enabled ? batch.items.flatMap((item) => {
+    const result = renderPrintItem(item.value);
+    return result.svg ? [{ value: item.value, svg: result.svg }] : [];
+  }) : [], [batch.enabled, batch.items, renderPrintItem]);
 
   return (
     <div className="portal-page">
@@ -234,6 +251,7 @@ export const PortalPage = ({ darkMode, onToggleDarkMode }: PortalPageProps) => {
                 batchPosition={selectedBatchItem ? selectedBatchItem.index + 1 : undefined}
                 batchTotal={batch.enabled ? batch.items.length || undefined : undefined}
                 onBatchDownload={downloadBatch}
+                onPrint={openPrint}
               />
             </div>
           </div>
@@ -242,6 +260,10 @@ export const PortalPage = ({ darkMode, onToggleDarkMode }: PortalPageProps) => {
         <ToolMatrix activeCategory={activeCategory} activeSymbology={activeSymbology} onUseTool={scrollToGenerator} />
       </main>
       <StandardsFooter />
+      <LabelPrintDialog open={printOpen} onOpen={openPrint} onClose={closePrint}
+        current={currentPrintLabel} currentError={currentPrintRender.error}
+        batch={batchPrintLabels} batchTotal={batch.enabled ? batch.items.length : 0}
+        batchStale={batch.isStale} onNotify={notify} />
       {toast && <Toast message={toast} onDismiss={() => setToast(null)} />}
     </div>
   );
