@@ -31,6 +31,8 @@
 .print-dialog-footer { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--border); }
 .print-dialog-footer > span { color: var(--muted); font-size: 11px; }
 .print-dialog-footer .button { min-height: 42px; }
+.print-recovery { display: grid; gap: 12px; margin-top: 18px; padding: 16px; border: 1px solid var(--amber); border-radius: 10px; font-size: 12px; line-height: 1.7; }
+.print-recovery-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 #label-print-output { display: none; }
 
 @media (max-width: 600px) {

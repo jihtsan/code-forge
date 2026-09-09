@@ -263,7 +263,7 @@ export const PortalPage = ({ darkMode, onToggleDarkMode }: PortalPageProps) => {
       <LabelPrintDialog open={printOpen} onOpen={openPrint} onClose={closePrint}
         current={currentPrintLabel} currentError={currentPrintRender.error}
         batch={batchPrintLabels} batchTotal={batch.enabled ? batch.items.length : 0}
-        batchStale={batch.isStale} onNotify={notify} />
+        batchStale={batch.isStale} />
       {toast && <Toast message={toast} onDismiss={() => setToast(null)} />}
     </div>
   );
