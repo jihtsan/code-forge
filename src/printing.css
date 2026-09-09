@@ -1,0 +1,50 @@
+.label-print-dialog { width: min(880px, calc(100vw - 28px)); max-height: calc(100dvh - 32px); margin: auto; padding: 26px; border: 1px solid var(--border); border-radius: 18px; color: var(--ink); background: var(--surface); box-shadow: 0 24px 80px #0004; overflow-y: auto; }
+.label-print-dialog::backdrop { background: #10182099; backdrop-filter: blur(4px); }
+.print-dialog-header, .print-dialog-footer, .print-preview-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.print-dialog-header h2 { display: flex; align-items: center; gap: 10px; margin-top: 5px; font-size: 24px; }
+.print-dialog-header .icon-button { flex-shrink: 0; }
+.print-description { margin: 16px 0 22px; font-size: 13px; color: var(--muted); line-height: 1.7; }
+.print-dialog-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; }
+.print-settings, .printer-feedback form { display: flex; flex-direction: column; gap: 14px; }
+.label-print-dialog label { display: flex; flex-direction: column; gap: 7px; min-width: 0; font-size: 12px; font-weight: 600; }
+.label-print-dialog input, .label-print-dialog select, .label-print-dialog textarea { width: 100%; min-width: 0; min-height: 40px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; color: var(--ink); background: var(--surface-alt); font: inherit; font-size: 13px; }
+.label-print-dialog textarea { resize: vertical; }
+.label-print-dialog select { appearance: none; padding-right: 30px; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 15px) 50%, calc(100% - 10px) 50%; background-size: 5px 5px; background-repeat: no-repeat; }
+.label-print-dialog :is(button, input, select, textarea, a, summary):focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+.label-print-dialog button:disabled { opacity: .45; cursor: not-allowed; }
+.print-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.print-note { color: var(--muted); font-size: 12px; line-height: 1.7; }
+.print-warning { padding: 10px 12px; border: 1px solid var(--amber); border-radius: 8px; color: var(--ink); font-size: 12px; line-height: 1.7; }
+.print-error { display: flex; align-items: flex-start; gap: 8px; color: var(--danger); font-size: 12px; line-height: 1.7; }
+.print-error svg { flex-shrink: 0; margin-top: 2px; }
+.print-preview-panel { min-width: 0; align-self: start; padding: 18px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-alt); }
+.print-preview-heading { margin-bottom: 20px; font-size: 12px; }
+.print-preview-heading span { color: var(--muted); }
+.print-preview-paper { display: flex; align-items: center; justify-content: center; width: 100%; margin: 0 auto 18px; color: #222; background: #fff; box-shadow: 0 3px 16px #0001; font-size: 12px; overflow: hidden; }
+.print-artwork { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; min-width: 0; min-height: 0; }
+.print-artwork svg { display: block; width: 100%; height: 100%; }
+.print-system-help { display: grid; gap: 8px; margin-top: 24px; padding: 16px; border-radius: 10px; background: var(--blue-soft); font-size: 12px; line-height: 1.8; }
+.print-system-help strong { color: var(--blue); }
+.printer-feedback { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
+.printer-feedback summary { display: flex; align-items: center; gap: 8px; padding: 5px 0; color: var(--blue); cursor: pointer; font-size: 13px; font-weight: 600; }
+.printer-feedback > p { margin: 12px 0 16px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+.print-dialog-footer { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--border); }
+.print-dialog-footer > span { color: var(--muted); font-size: 11px; }
+.print-dialog-footer .button { min-height: 42px; }
+#label-print-output { display: none; }
+
+@media (max-width: 600px) {
+  .label-print-dialog { padding: 18px; }
+  .print-dialog-grid { grid-template-columns: 1fr; gap: 20px; }
+  .print-preview-panel { width: 100%; }
+  .print-dialog-footer { align-items: stretch; flex-direction: column; gap: 12px; }
+}
+
+@media print {
+  html:has(body.label-print-enabled), body.label-print-enabled { min-width: 0 !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; background: white !important; color: black !important; color-scheme: light; }
+  body.label-print-enabled > :not(#label-print-output) { display: none !important; }
+  body.label-print-enabled #label-print-output { display: block !important; margin: 0; padding: 0; background: white; color: black; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .label-print-dialog, .label-print-dialog::backdrop { display: none !important; }
+  .printed-label { box-sizing: border-box; display: flex; align-items: center; justify-content: center; break-inside: avoid; break-after: page; page-break-after: always; overflow: hidden; }
+  .printed-label:last-child { break-after: auto; page-break-after: auto; }
+}

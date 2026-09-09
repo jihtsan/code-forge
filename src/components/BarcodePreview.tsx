@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { AlertTriangle, Check, Clipboard, Download, FileImage, FileText, ShieldCheck } from "lucide-react";
+import { AlertTriangle, Check, Clipboard, Download, FileImage, FileText, Printer, ShieldCheck } from "lucide-react";
 import type { SymbologyId } from "../data/mockData";
 import type { Code11GeneratorResult } from "../hooks/useCode11Generator";
 import { calculateEanCheckDigit, type IssnGeneratorResult } from "../hooks/useIssnGenerator";
@@ -24,6 +24,7 @@ export interface BarcodePreviewProps {
   readonly batchPosition?: number;
   readonly batchTotal?: number;
   readonly onBatchDownload?: () => void;
+  readonly onPrint: () => void;
 }
 
 export const BarcodePreview = ({
@@ -37,6 +38,7 @@ export const BarcodePreview = ({
   batchPosition,
   batchTotal,
   onBatchDownload,
+  onPrint,
 }: BarcodePreviewProps) => {
   const isCode11 = symbology === "code11";
   const isLinear = isLinearSymbology(symbology);
@@ -233,6 +235,9 @@ export const BarcodePreview = ({
         </div>
 
         <div className={`preview-actions${batchTotal && batchTotal > 1 ? " preview-actions--batch" : ""}`}>
+          <button className="button button--primary preview-actions__print" type="button" onClick={onPrint} aria-keyshortcuts="Control+p Meta+p">
+            <Printer size={14} aria-hidden="true" />打印标签
+          </button>
           <button className="button button--primary" type="button" onClick={exportSvg}>
             <Download size={14} aria-hidden="true" />
             导出 SVG
