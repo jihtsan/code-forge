@@ -141,6 +141,19 @@ prepares a GitHub issue link; the user must log in and submit the public issue
 themselves. Nothing is automatically posted or stored in a backend. Do not
 include private barcode payloads or other sensitive data in feedback.
 
+If **继续系统打印** does not open a printer selection window, the page now keeps
+the dialog open with persistent guidance. Embedded browsers may expose
+`window.print()` but silently ignore it; a successful function return is not
+treated as proof that a print window opened or that paper was printed. The
+request runs directly in the click handler to retain user activation.
+
+Use **复制页面地址** to open the page in full Chrome, Edge or Safari (the address
+does not transfer the current barcode/settings). To preserve the job, use
+**下载打印文件** instead: `code-forge-labels.html` contains the selected labels,
+expanded copies and millimeter page settings, and works offline without the
+application server. Open it in a full browser and click its print button or use
+the browser's Print menu. It does not print automatically on opening.
+
 Validation for printing includes `npm test` (artwork, input boundaries, job
 limits and shortcut recognition), `npm run build`, and browser checks of the
 dialog, dark/mobile layouts, batch counts, print-only output and physical page

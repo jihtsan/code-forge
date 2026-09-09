@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
-import { createPortal } from "react-dom";
+import { createPortal, flushSync } from "react-dom";
 import { AlertTriangle, Printer, X } from "lucide-react";
 import {
   DEFAULT_LABEL_SETTINGS, expandPrintLabels, isPrintShortcut, validateLabelSettings,
@@ -7,6 +7,8 @@ import {
 } from "../lib/labelPrinting";
 import { PrinterFeedback } from "./PrinterFeedback";
 import "../printing.css";
+import { downloadText } from "../lib/barcodeExport";
+import { buildPrintDocument } from "../lib/printDocument";
 
 interface LabelPrintDialogProps {
   readonly open: boolean;
@@ -17,11 +19,13 @@ interface LabelPrintDialogProps {
   readonly batch: readonly PrintableLabel[];
   readonly batchTotal: number;
   readonly batchStale: boolean;
-  readonly onNotify: (message: string) => void;
 }
 
-export const LabelPrintDialog = ({ open, onOpen, onClose, current, currentError, batch, batchTotal, batchStale, onNotify }: LabelPrintDialogProps) => {
+export const LabelPrintDialog = ({ open, onOpen, onClose, current, currentError, batch, batchTotal, batchStale }: LabelPrintDialogProps) => {
   const dialog = useRef<HTMLDialogElement>(null);
+  const recovery = useRef<HTMLDivElement>(null);
+  const [printMessage, setPrintMessage] = useState<string | null>(null);
+  const [recoveryMessage, setRecoveryMessage] = useState<string | null>(null);
   const [scope, setScope] = useState("current");
   const [settings, setSettings] = useState<LabelSettings>(DEFAULT_LABEL_SETTINGS);
   const [preset, setPreset] = useState("60x40");
@@ -64,18 +68,35 @@ export const LabelPrintDialog = ({ open, onOpen, onClose, current, currentError,
 
   const print = () => {
     if (error) return;
-    // Remove the modal from the top layer before printing the separate body
-    // sibling. Inline SVGs avoid asynchronous image-loading races.
-    dialog.current?.close();
-    onClose();
-    window.requestAnimationFrame(() => {
-      try {
-        window.print();
-        onNotify("请在系统打印窗口确认；本页面无法判断是否已出纸");
-      } catch {
-        onNotify("无法打开打印窗口，请使用浏览器菜单打印，或导出 SVG / PNG");
-      }
-    });
+    // Some embedded browsers expose print() but silently ignore it. Keep the
+    // dialog and feedback visible; a void return is not proof of a print UI.
+    flushSync(() => setPrintMessage("已请求系统打印。如果没有弹出打印机选择窗口，当前内置浏览器可能不支持打印，请使用下面的方式继续。"));
+    recovery.current?.scrollIntoView({ block: "nearest" });
+    try {
+      // Stay in the user's click handler. Print CSS hides this dialog while
+      // the separate label output remains printable.
+      window.print();
+    } catch {
+      setPrintMessage("当前浏览器无法调用系统打印。请在 Chrome、Edge 或 Safari 中打开页面或打印文件后重试。");
+    }
+  };
+
+  const copyAddress = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setRecoveryMessage("地址已复制，请粘贴到 Chrome、Edge 或 Safari。当前条码和设置不会随地址传递；如需保留，请下载打印文件。");
+    } catch {
+      setRecoveryMessage("无法自动复制，请手动复制下方地址，在 Chrome、Edge 或 Safari 中打开。");
+    }
+  };
+
+  const downloadPrintFile = () => {
+    try {
+      downloadText(buildPrintDocument(items, settings), "code-forge-labels.html", "text/html;charset=utf-8");
+      setRecoveryMessage("已发起下载 code-forge-labels.html，其中保留了当前标签和打印设置。请在完整浏览器中打开文件，然后选择打印机；如未下载，请检查浏览器的下载提示。");
+    } catch {
+      setRecoveryMessage("无法生成打印文件，请检查条码和打印设置后重试。");
+    }
   };
 
   return <>
@@ -121,6 +142,16 @@ export const LabelPrintDialog = ({ open, onOpen, onClose, current, currentError,
       </div>
       <div className="print-system-help"><strong>系统打印设置</strong><p>选择与标签相同的纸张尺寸，缩放设为 100% / 实际大小，关闭页眉页脚，并将系统份数设为 1（本面板已展开份数）。纸张间隙、黑标和定位请在驱动中设置。</p><p>没有找到打印机？先在 Windows / macOS 系统设置中添加设备，必要时安装厂商驱动。此版本不提供局域网扫描或静默打印；也可关闭面板导出 SVG / PNG，使用厂商软件打印。</p></div>
       <PrinterFeedback />
+      {printMessage && <div className="print-recovery" ref={recovery}>
+        <p role="status">{printMessage}</p>
+        <div className="print-recovery-actions">
+          <button type="button" className="button button--quiet" onClick={copyAddress}>复制页面地址</button>
+          <button type="button" className="button button--quiet" disabled={Boolean(error)} onClick={downloadPrintFile}>下载打印文件</button>
+        </div>
+        <label>在完整浏览器中打开<input readOnly value={window.location.href} onFocus={(event) => event.target.select()} /></label>
+        {recoveryMessage && <p role="status">{recoveryMessage}</p>}
+        <p>打印文件保留当前标签、尺寸和份数。页面无法确认是否已出纸，请检查打印机后再决定是否重试。</p>
+      </div>}
       <footer className="print-dialog-footer"><span>尚无型号完成实机验证</span><button type="button" className="button button--primary" disabled={Boolean(error)} onClick={print}><Printer size={16} aria-hidden="true" />继续系统打印{labels.length > 0 ? `（${labels.length} 张）` : ""}</button></footer>
     </dialog>
     {createPortal(<div id="label-print-output" aria-hidden="true">
